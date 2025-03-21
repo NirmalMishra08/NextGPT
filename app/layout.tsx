@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inder, Inter } from "next/font/google";
 import "./globals.css";
 import Provider from "./Provider/NextAuthProvider";
+import { ClerkProvider } from "@clerk/nextjs";
+import { AppContextProvider } from "@/context/AppContext";
 
 
 const inter = Inter({
@@ -22,13 +24,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className}antialiased`}
-      >
-        <Provider>{children}</Provider>
-        
-      </body>
-    </html>
+    <ClerkProvider>
+      <AppContextProvider>
+        <html lang="en">
+          <body
+            className={`${inter.className} antialiased`}
+          >
+            <Provider>{children}</Provider>
+          </body>
+        </html>
+      </AppContextProvider>
+    </ClerkProvider>
   );
 }
