@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { Divide } from 'lucide-react';
 import Sidebar from '@/component/Sidebar';
 import PrompBox from '@/component/PrompBox';
+import Message from '@/component/Message';
+
 
 
 
@@ -23,7 +25,7 @@ const LeftSidebar = () => {
                         <Image className='opacity-70 ' src={assets.chat_icon} alt='' />
                     </div>
                     {
-                        messages.length === 0 ? (
+                        messages.length !== 0 ? (
                         <>
                             <div className='flex items-center gap-3'>
                                 <Image src={assets.logo_icon} alt='' className='h-16' />
@@ -34,7 +36,9 @@ const LeftSidebar = () => {
                             </p>
 
                         </>)
-                            : (<div> </div>)
+                            : (<div>
+                                <Message role='user' content='What is next Js'/>
+                                 </div>)
                     }
                     <PrompBox isLoading={isLoading} setLoading={setLoading}  />
                 </div>
