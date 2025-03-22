@@ -3,12 +3,14 @@
 import { useUser } from "@clerk/nextjs";
 import { createContext, useContext } from "react"
 
+//@ts-ignore
+
 export const AppContext = createContext();
 
 
 
 
-export const AppContextProvider = ({children})=>{
+export const AppContextProvider = ({children}:any)=>{
     const {user} = useUser()
 
     const value={

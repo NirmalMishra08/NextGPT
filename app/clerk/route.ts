@@ -4,10 +4,10 @@ import connectDb from '@/config/db'
 import User from '@/models/User'
 import { headers } from 'next/headers';
 import { request } from 'http';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 
-export async function POST(req) {
+export async function POST(req:NextRequest) {
     const wh = new Webhook(process.env.SIGNING_SECRET as string);
     const headerPayload = await headers();
     const svixHeaders = {
@@ -18,6 +18,8 @@ export async function POST(req) {
 
     const payload = await req.json();
     const body = JSON.stringify(payload);
+
+    //@ts-ignore
 
     const { data, type } = wh.verify(body, svixHeaders);
 
