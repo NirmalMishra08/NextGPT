@@ -19,7 +19,7 @@ export async function POST(req:NextRequest) {
     const payload = await req.json();
     const body = JSON.stringify(payload);
 
-    //@ts-ignore
+    //@ts-expect-error
 
     const { data, type } = wh.verify(body, svixHeaders);
 

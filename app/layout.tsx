@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inder, Inter } from "next/font/google";
+import {  Inter } from "next/font/google";
 import "./globals.css";
 import Provider from "./Provider/NextAuthProvider";
 import { ClerkProvider } from "@clerk/nextjs";

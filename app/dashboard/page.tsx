@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { assets } from "@/assets/assets"
 import Image from 'next/image';
-import { Divide } from 'lucide-react';
+
 import Sidebar from '@/component/Sidebar';
 import PrompBox from '@/component/PrompBox';
 import Message from '@/component/Message';
