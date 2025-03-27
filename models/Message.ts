@@ -9,7 +9,7 @@ const message = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["user", "assintant"],
+        enum: ["user", "assistant"],
         required: true
     },
     content: {

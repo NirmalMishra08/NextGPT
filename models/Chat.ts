@@ -1,17 +1,18 @@
+
 import mongoose from "mongoose";
 
 const chat = new mongoose.Schema({
-    userId: { type: mongoose.Schema.ObjectId, required: true, ref: "User" },
-    title: {
-        type: String,
-        default: "New Chat",
 
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-})
+    name: { type: String, required: true },
+    userId: { type: mongoose.Schema.ObjectId, required: true, ref: "User" },
+    messages:[{
+        role:{ type: String, required: true},
+        content:{ type: String, required: true},
+        timestamp:{ type: Number, required: true},
+    }]
+   
+
+}, { timestamps: true })
 
 const Chat = mongoose.models.Chat || mongoose.model('Chat', chat);
 

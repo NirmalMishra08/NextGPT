@@ -1,22 +1,18 @@
+"use  client"
 import { assets } from '@/assets/assets'
 import Image from 'next/image'
-import React, { useContext, useState } from 'react'
-import { useClerk, UserButton } from '@clerk/nextjs'
-import { AppContext } from '@/context/AppContext'
-import { User } from '@clerk/nextjs/server'
+import React from 'react'
+
 import ChatLabel from './ChatLabel'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 const Sidebar = ({ expand, setExpand }: any) => {
 
+  const { data: session } = useSession();
 
-
-  const { openSignIn } = useClerk();
-  const value = useContext(AppContext)
-
-
-  // @ts-ignore
-  const user = value.user;
-
+  const user = session?.user; 
+  console.log(user)
+ 
 
   return (
     <>
@@ -63,9 +59,9 @@ const Sidebar = ({ expand, setExpand }: any) => {
                 </div>
               </div>
               {/* // @ts-ignore */}
-              <div onClick={() => { user ? null : openSignIn }} className='flex items-center mx-2 p-2 text-gray-300 gap-2 text-sm'>
+              <div onClick={() => { user ? signOut() : signIn() }} className='flex items-center mx-2 p-2 text-gray-300 gap-2 text-sm'>
                 {
-                  user ? <UserButton /> : <Image className='w-7' src={assets.profile_icon} alt='' />
+                  user ? <Image className='w-7 rounded-full' src={user.image} alt='User' width={28} height={28} /> : <Image className='w-7' src={assets.profile_icon} alt='' />
                 }
 
                 <div>My Profile</div>
