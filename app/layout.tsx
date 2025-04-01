@@ -1,10 +1,11 @@
 
 
 import type { Metadata } from "next";
-import {  Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import "./Prism.css";
 import Provider from "./Provider/NextAuthProvider";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast"
 
 import { SessionProvider } from "next-auth/react";
 
@@ -27,19 +28,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    
-    <ClerkProvider>
-     
-        <html lang="en">
-          <body
-            className={`${inter.className} antialiased`}
-          >
-            <Provider>{children}</Provider>
-          </body>
-        </html>
-     
-    </ClerkProvider>
-   
+
+
+
+    <html lang="en">
+      <body
+        className={`${inter.className} antialiased`}
+      >
+        <Provider> <Toaster toastOptions={
+          {
+            success:{style:{background:"black",color:"white"}},
+            error:{style:{background:"white",color:"black"}}
+          }
+        }/> {children}</Provider>
+      </body>
+    </html>
+
+
+
 
   );
 }

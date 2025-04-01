@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const chat = new mongoose.Schema({
 
     name: { type: String, required: true },
-    userId: { type: mongoose.Schema.ObjectId, required: true, ref: "User" },
+    userId: { type: String, required: true, ref: "User" },
     messages:[{
         role:{ type: String, required: true},
         content:{ type: String, required: true},

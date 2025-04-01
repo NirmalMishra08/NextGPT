@@ -6,21 +6,30 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          scope: "openid profile email",
+        },
+      },
     }),
   ],
   callbacks: {
     async jwt({ token, account, user }) {
-      if (account && user) {
-        token.id = user.id || user.sub;  // ✅ Store Google user ID
+      // If it's the initial sign-in, store the access token and refresh token
+      if (account) {
+        
+        token.id = user.id || user.sub;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.id) {
-        session.user.id = token.id as string; // ✅ Assign user ID to session
+        session.user.id = token.id as string;
+        // Include the access token in the session
+        
       }
       return session;
-    }
+    },
   },
   session: {
     strategy: "jwt",

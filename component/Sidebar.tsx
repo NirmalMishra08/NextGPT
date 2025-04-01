@@ -1,18 +1,21 @@
 "use  client"
 import { assets } from '@/assets/assets'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
 import ChatLabel from './ChatLabel'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import { useUser } from '@/app/Context/UserContext'
 
 const Sidebar = ({ expand, setExpand }: any) => {
 
   const { data: session } = useSession();
 
-  const user = session?.user; 
-  console.log(user)
- 
+  const user = session?.user;
+  const [openMenu, setOpenMenu] = useState({ id: 0, open: false })
+  const { chats, createNewChat } = useUser();
+
+
 
   return (
     <>
@@ -38,7 +41,7 @@ const Sidebar = ({ expand, setExpand }: any) => {
                 </div>
               </div>
 
-              <div className='bg-[#4864E9] w-fit px-2 py-2 rounded-xl flex items-center justify-center gap-2'>
+              <div onClick={createNewChat} className='bg-[#4864E9] w-fit px-2 py-2 rounded-xl flex items-center justify-center gap-2'>
                 <Image src={assets.chat_icon} alt='' />
                 <p className='text-white font-light text-center'>New Chat</p>
               </div>
@@ -46,7 +49,17 @@ const Sidebar = ({ expand, setExpand }: any) => {
               <div>
                 <p className='text-gray-400'>Recents</p>
                 {/* chatLabel */}
-                <ChatLabel />
+                
+                {
+                  chats.length > 0 ? (
+                    chats.map((chat) => (
+                      <ChatLabel key={chat?._id} name={chat?.name} id={chat?._id} openMenu={openMenu} setOpenMenu={setOpenMenu} />
+                    ))
+                  ) : (
+                    <p className="text-gray-400">No chats available</p>
+                  )
+                }
+
               </div>
             </div>
 

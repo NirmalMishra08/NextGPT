@@ -2,13 +2,15 @@
 
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
+import { RecoilRoot } from "recoil";
+import { UserProvider } from "../Context/UserContext";
 
 interface ProviderProps {
   children: ReactNode;
-  
+
 }
 
 export default function Provider({ children }: ProviderProps) {
-     
-  return <SessionProvider>{children}</SessionProvider>
+
+  return <SessionProvider><UserProvider>{children}</UserProvider></SessionProvider>
 }
