@@ -10,31 +10,34 @@ import toast from 'react-hot-toast';
 interface Chat {
     _id: string;
     name: string;
-    messages: any[]; // Define proper message type if available
+    messages: any[];
+    updatedAt: string;
+    userId: string;
 }
 
+interface ChatLabelProps {
+    openMenu: { id: string; open: boolean };
+    setOpenMenu: React.Dispatch<React.SetStateAction<{ id: string; open: boolean }>>;
+    id: string;
+    name: string;
+}
+
+const ChatLabel = ({ openMenu, setOpenMenu, id, name }: ChatLabelProps) => {
 
 
-const ChatLabel = ({ openMenu, setOpenMenu, id, name }) => {
-   
-    
-    const { fetchUserChat, chats, setSelectedChat } = useUser() as {
-        fetchUserChat: () => void;
-        chats: Chat[];
-        setSelectedChat: (chat: Chat) => void;
-    };
+    const { fetchUserChat, chats, setSelectedChat } = useUser();
 
     const selectChat = () => {
         const chatData = chats.find((chat) => chat._id === id);
-        
+
         if (chatData) {
             setSelectedChat(chatData);
-            
+
         }
     };
 
     const renameChat = async (e: React.MouseEvent) => {
-       
+
         try {
             const newName = prompt("Enter new name");
             if (!newName) {
@@ -43,7 +46,9 @@ const ChatLabel = ({ openMenu, setOpenMenu, id, name }) => {
             const { data } = await axios.post("/api/v1/chat/rename", { chatId: id, name: newName });
             if (data.success) {
                 await fetchUserChat();
-                setOpenMenu({ id: 0, open: false });
+                setOpenMenu((prev: { id: string; open: boolean }) =>
+                    prev.id === id && prev.open ? { id: '', open: false } : { id: id, open: true }
+                );
                 toast.success(data.message);
             } else {
                 toast.error(data.message);
@@ -62,7 +67,9 @@ const ChatLabel = ({ openMenu, setOpenMenu, id, name }) => {
             }
             const { data } = await axios.post("/api/v1/chat/delete", { chatId: id });
             if (data.success) {
-                setOpenMenu({ id: 0, open: false });
+                setOpenMenu((prev: { id: string; open: boolean }) =>
+                    prev.id === id && prev.open ? { id: '', open: false } : { id: id, open: true }
+                );
                 await fetchUserChat();
                 toast.success(data.message);
             } else {
@@ -79,18 +86,18 @@ const ChatLabel = ({ openMenu, setOpenMenu, id, name }) => {
                 {name}
             </p>
             <div
-              onClick={(e) => {
-                e.stopPropagation();
-                setOpenMenu(prev => 
-                    prev.id === id && prev.open ? { id: 0, open: false } : { id: id, open: true }
-                );
-            }}
-            
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenMenu((prev: { id: string; open: boolean }) =>
+                        prev.id === id && prev.open ? { id: '', open: false } : { id: id, open: true }
+                    );
+                }}
+
                 className='group z-100 relative flex items-center justify-center h-6 w-6 aspect-square hover:bg-black/80 rounded-lg'
             >
-                <Image src={assets.three_dots} alt='menu' className={`w-4 ${openMenu.id===id && openMenu.open ? "hidden " : ""}`} />
+                <Image src={assets.three_dots} alt='menu' className={`w-4 ${openMenu.id === id && openMenu.open ? "hidden " : ""}`} />
 
-                <div className={`absolute ${openMenu.id===id && openMenu.open ? "block" : "hidden"} -right-36 top-6 bg-gray-700 rounded-xl w-max p-2`}>
+                <div className={`absolute ${openMenu.id === id && openMenu.open ? "block" : "hidden"} -right-36 top-6 bg-gray-700 rounded-xl w-max p-2`}>
                     <div onClick={renameChat} className='flex items-center gap-3 hover:bg-white/10 px-3 py-2 rounded-lg'>
                         <Image src={assets.pencil_icon} alt='rename' className='w-4' />
                         <p>Rename</p>
@@ -99,7 +106,7 @@ const ChatLabel = ({ openMenu, setOpenMenu, id, name }) => {
                         <Image src={assets.delete_icon} alt='delete' className='w-4' />
                         <p>Delete</p>
                     </div>
-                </div> 
+                </div>
 
             </div>
         </div>

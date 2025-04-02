@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions)
         console.log(session)
-        const userId = session?.user?.id;
+        const userId = session?.user?.id; 
 
         if (!userId) {
             return NextResponse.json({ message: "User not authenticated", success: false }, { status: 401 });
@@ -23,5 +23,5 @@ export async function POST(req: NextRequest) {
 
     } catch (error) {
         return NextResponse.json({ success: false, error: ((error) as Error).message })
-    }
+    } 
 }

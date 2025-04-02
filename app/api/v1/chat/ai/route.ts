@@ -51,11 +51,12 @@ export async function POST(req: Request) {
             contents: prompt,
         });
 
-        console.log(response.candidates[0].content?.parts[0].text)
-      
+        if (!response?.candidates?.[0]?.content?.parts?.[0]?.text) {
+            throw new Error("Invalid response from AI");
+        }
 
-        const responseText = response.candidates[0].content?.parts[0].text || "No response from AI";
-        
+        const responseText = response.candidates[0].content.parts[0].text;
+
         const aiMessage = {
             role: "model",
             content: responseText,
@@ -66,9 +67,11 @@ export async function POST(req: Request) {
         await chatData.save();
 
 
-        return NextResponse.json({ success:true, response: responseText, session }, { status: 200 });
-    } catch (error) {
+        return NextResponse.json({ success: true, response: responseText, session }, { status: 200 });
+    } catch (error: unknown) {
         console.error("Together AI Error:", error);
-        return NextResponse.json({ error: "Server Error", message:error.message }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+        return NextResponse.json({ error: "Server Error", message: errorMessage }, { status: 500 });
+        
     }
 }

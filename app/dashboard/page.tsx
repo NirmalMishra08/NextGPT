@@ -9,16 +9,19 @@ import Message from '@/component/Message';
 
 import { useUser } from '../Context/UserContext';
 
-
-
+interface ChatMessage {
+    role: string;
+    content: string;
+    timestamp?: number;
+}
 
 const MainPage = () => {
 
 
-    const { selectedChat } = useUser();
-    const constainerRef = useRef(null);
+    const { selectedChat }: any = useUser();
+    const constainerRef = useRef<HTMLDivElement>(null);
     const [expand, setExpand] = useState(false);
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -52,7 +55,7 @@ const MainPage = () => {
                         messages?.length === 0 ? (
                             <div className='mt-20'>
                                 <div className='flex flex-col items-center gap-3'>
-                                   
+
                                     <div className='flex items-center gap-3'>
                                         <Image src={assets.logo_icon} alt='' className='h-16' />
                                         <p className='text-sm mt-2'>Hi I am deepSeek</p>
@@ -65,7 +68,7 @@ const MainPage = () => {
                         ) : (<div className='relative flex flex-col w-full h-[calc(100vh-180px)] overflow-y-auto' ref={constainerRef}>
                             <div className='flex flex-col items-center w-full'>
                                 <p className='sticky top-0 z-10 bg-[#292a28] w-full py-3 px-4 text-md font-semibold text-white text-center'>
-                                  {selectedChat?.name}
+                                    {selectedChat?.name}
                                 </p>
 
                                 {Array.isArray(messages) && messages.map((msg, index) => (

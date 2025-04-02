@@ -7,12 +7,20 @@ import ChatLabel from './ChatLabel'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useUser } from '@/app/Context/UserContext'
 
+interface Chat {
+  _id: string;
+  name: string;
+  messages: any[];
+  updatedAt: string;
+  userId: string;
+}
+
 const Sidebar = ({ expand, setExpand }: any) => {
 
   const { data: session } = useSession();
 
   const user = session?.user;
-  const [openMenu, setOpenMenu] = useState({ id: 0, open: false })
+  const [openMenu, setOpenMenu] = useState({ id: '', open: false });
   const { chats, createNewChat } = useUser();
 
 
@@ -49,7 +57,7 @@ const Sidebar = ({ expand, setExpand }: any) => {
               <div>
                 <p className='text-gray-400'>Recents</p>
                 {/* chatLabel */}
-                
+
                 {
                   chats.length > 0 ? (
                     chats.map((chat) => (
@@ -74,9 +82,12 @@ const Sidebar = ({ expand, setExpand }: any) => {
               {/* // @ts-ignore */}
               <div onClick={() => { user ? signOut() : signIn() }} className='flex items-center mx-2 p-2 text-gray-300 gap-2 text-sm'>
                 {
-                  user ? <Image className='w-7 rounded-full' src={user.image} alt='User' width={28} height={28} /> : <Image className='w-7' src={assets.profile_icon} alt='' />
+                  user && user.image ? (
+                    <Image className='w-7 rounded-full' src={user.image} alt='User' width={28} height={28} />
+                  ) : (
+                    <Image className='w-7' src={assets.profile_icon} alt='' />
+                  )
                 }
-
                 <div>My Profile</div>
               </div>
             </div>

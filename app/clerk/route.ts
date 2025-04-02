@@ -89,10 +89,12 @@ export async function POST(req: NextRequest) {
             default:
               return NextResponse.json({ message: 'Unhandled event type' }, { status: 400 });
           }
+          
           return NextResponse.json({ message: 'Event received successfully' },{status: 200});
 
     }catch(error){
         console.error(error);
-        return NextResponse.json({ message: 'Invalid request payload' }, { status: 400 });
+        return NextResponse.json({ message: 'Invalid request payload' }, { status: 400 });    
+        
     }
 }

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 const PrompBox = ({ isLoading, setLoading }: any) => {
     const [prompt, setPrompt] = useState('');
     const { user, chats, setChats, selectedChat, setSelectedChat } = useUser();
-    
+
 
     const sendPrompt = async (e: any) => {
         const promptCopy = prompt;
@@ -19,6 +19,10 @@ const PrompBox = ({ isLoading, setLoading }: any) => {
             }
             if (isLoading) {
                 return toast.error("Wait for the previous prompt response");
+            }
+
+            if (!selectedChat) {
+                return toast.error("No chat selected");
             }
 
             setLoading(true);
@@ -62,7 +66,7 @@ const PrompBox = ({ isLoading, setLoading }: any) => {
                     return { ...prev, messages: updatedMessages };
                 });
 
-                messageToken.forEach((_, i) => {
+                messageToken.forEach((_: string, i: number) => {
                     setTimeout(() => {
                         setSelectedChat((prev) => {
                             if (!prev) return prev;
@@ -98,7 +102,7 @@ const PrompBox = ({ isLoading, setLoading }: any) => {
     };
 
     return (
-        <form onSubmit={sendPrompt} className={`w-full  ${selectedChat?.messages?.length > 0 ? "max-w-3xl" : "max-w-2xl"}  bg-[#404045] p-4 rounded-3xl mt-4 transition-all`}>
+        <form onSubmit={sendPrompt} className={`w-full  ${selectedChat?.messages?.length ?? 0 > 0 ? "max-w-3xl" : "max-w-2xl"}  bg-[#404045] p-4 rounded-3xl mt-4 transition-all`}>
             <textarea onKeyDown={handleKeyDown} onChange={(e) => setPrompt(e.target.value)} value={prompt} className='outline-none w-full resize-none bg-transparent' rows={2} placeholder='Message NextGPT' required />
             <div className='flex items-center justify-between text-sm'>
                 <div className='flex items-center gap-2'>
