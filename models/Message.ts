@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import mongoose from "mongoose";
 
 const message = new mongoose.Schema({
@@ -9,18 +8,18 @@ const message = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["user", "assistant"],
+        enum: ["user", "model"],
         required: true
     },
     content: {
-        type: String, required: true
+        type: String,
+        required: true
     },
     timeStamp: {
         type: Date,
         default: Date.now
     }
-
-})
+});
 
 const Message = mongoose.models.Message || mongoose.model('Message', message);
 

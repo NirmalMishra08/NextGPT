@@ -1,7 +1,7 @@
 import Chat from "@/models/Chat";
 import connectDb from "@/config/db";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth.config";
 import { getServerSession } from "next-auth";
 
 export async function POST(req: NextRequest) {

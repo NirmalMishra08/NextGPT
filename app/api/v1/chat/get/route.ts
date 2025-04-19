@@ -1,12 +1,12 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth.config";
 import connectDb from "@/config/db";
 import Chat from "@/models/Chat";
-import mongoose from "mongoose";
+
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const session = await getServerSession(authOptions)
         console.log(session)
@@ -19,16 +19,16 @@ export async function GET(req: NextRequest) {
 
         await connectDb();
 
-        
+
 
         const data = await Chat.find({
             userId,  // Use the converted ObjectId
         });
-       
+
         return NextResponse.json({ success: true, data }, { status: 200 })
 
     } catch (error) {
-        return NextResponse.json({ success:false, message: `Error occurred while ${((error) as Error).message}` })
-
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+        return NextResponse.json({ success: false, message: `Error occurred: ${errorMessage}` });
     }
 } 

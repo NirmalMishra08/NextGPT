@@ -1,13 +1,13 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth.config";
 import connectDb from "@/config/db";
 import Chat from "@/models/Chat";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function POST() {
     try {
         const session = await getServerSession(authOptions)
-        console.log(session)
+        
         const userId = session?.user?.id;
         if (!userId) {
             return NextResponse.json({ message: "User not authenticated", success: false }, { status: 401 });

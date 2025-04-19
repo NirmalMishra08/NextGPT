@@ -1,16 +1,14 @@
-export const maxDuration = 60
-import { AuthOptions, getServerSession } from "next-auth";
+export const maxDuration = 60;
+import { getServerSession } from "next-auth";
 import { GoogleGenAI } from "@google/genai";
 import connectDb from "@/config/db";
 import Chat from "@/models/Chat";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth.config";
 
 export async function POST(req: Request) {
     try {
-        const session = await getServerSession(authOptions)
-        console.log(session)
+        const session = await getServerSession(authOptions);
         const userId = session?.user?.id;
 
         if (!userId) {
@@ -26,7 +24,7 @@ export async function POST(req: Request) {
 
         await connectDb();
 
-        const chatData = await Chat.findOne({ userId, _id: chatId })
+        const chatData = await Chat.findOne({ userId, _id: chatId });
 
         if (!chatData) {
             return NextResponse.json({
@@ -42,7 +40,6 @@ export async function POST(req: Request) {
         };
 
         chatData.messages.push(userPrompt);
-
 
         const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
@@ -66,12 +63,10 @@ export async function POST(req: Request) {
         chatData.messages.push(aiMessage);
         await chatData.save();
 
-
         return NextResponse.json({ success: true, response: responseText, session }, { status: 200 });
-    } catch (error: unknown) {
-        console.error("Together AI Error:", error);
+    } catch (error) {
+        console.error("AI Error:", error);
         const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
         return NextResponse.json({ error: "Server Error", message: errorMessage }, { status: 500 });
-        
     }
 }

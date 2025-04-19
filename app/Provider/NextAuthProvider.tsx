@@ -2,7 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
-import { RecoilRoot } from "recoil";
+
 import { UserProvider } from "../Context/UserContext";
 
 interface ProviderProps {
