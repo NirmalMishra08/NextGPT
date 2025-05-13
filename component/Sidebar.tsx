@@ -61,9 +61,9 @@ const Sidebar: React.FC<SidebarProps> = ({ expand, setExpand }) => {
               {chats.length > 0 ? (
                 chats.map((chat) => (
                   <ChatLabel
-                    key={chat._id}
-                    name={chat.name}
-                    id={chat._id}
+                    key={chat?._id}
+                    name={chat?.name}
+                    id={chat?._id}
                     openMenu={openMenu}
                     setOpenMenu={setOpenMenu}
                   />

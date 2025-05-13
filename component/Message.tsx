@@ -26,47 +26,46 @@ const Message = ({ role, content }: roles) => {
         }
     };
 
-    
 
     return (
-        <div className='w-full max-w-3xl text-sm'>
-            <div className={`flex ${role === "user" ? "justify-end" : "justify-start"} w-full mb-8`}>
-                <div className={`group relative flex w-fit max-w-[80%] py-3 rounded-xl ${role === "user" ? "bg-[#414158] px-5" : "gap-3"}`}>
-                    <div className={`opacity-0 group-hover:opacity-100 absolute ${role === "user" ? "-left-16 top-2.5" : 'left-9 -bottom-6'} transition-all `}>
-                        <div className='flex items-center gap-2 opacity-70'>
-                            {
-                                role === "user" ? (
-                                    <>
-                                        <Image onClick={handleCopy} src={assets.copy_icon} alt='copy' className='w-4 cursor-pointer hover:opacity-100' />
-                                        <Image src={assets.pencil_icon} alt='edit' className='w-4.5 cursor-pointer hover:opacity-100' />
-                                    </>
-                                ) : (
-                                    <>
-                                        <Image onClick={handleCopy} src={assets.copy_icon} alt='copy' className='w-4 cursor-pointer hover:opacity-100' />
-                                        <Image src={assets.regenerate_icon} alt='regenerate' className='w-4 cursor-pointer hover:opacity-100' />
-                                        <Image src={assets.like_icon} alt='like' className='w-4 cursor-pointer hover:opacity-100' />
-                                        <Image src={assets.dislike_icon} alt='dislike' className='w-4 cursor-pointer hover:opacity-100' />
-                                    </>
-                                )
-                            }
+        <div className="w-full flex justify-center text-sm">
+            <div className={`flex w-full max-w-3xl ${role === "user" ? "justify-end" : "justify-start"} mb-6`}>
+                <div className={`relative group flex  gap-3 max-w-[80%] px-4 py-3 rounded-xl ${role === "user" ? "bg-[#414158]" : "bg-[#2c2c38]"}`}>
+                    
+                    {/* Avatar for AI */}
+                    {role !== "user" && (
+                        <Image
+                            src={assets.logo_icon}
+                            alt="AI"
+                            className="h-8 w-8 relative top-0 left-0 border border-white/15 rounded-full shrink-0"
+                        />
+                    )}
+    
+                    {/* Message content */}
+                    <div className="prose prose-invert w-full">
+                        <ReactMarkdown>{content}</ReactMarkdown>
+                    </div>
+    
+                    {/* User icon buttons */}
+                    <div className={`opacity-0 group-hover:opacity-100 absolute ${role === "user" ? "-left-16 top-2" : "left-10 -bottom-6"} transition-all`}>
+                        <div className="flex items-center gap-2 opacity-70">
+                            <Image onClick={handleCopy} src={assets.copy_icon} alt="copy" className="w-4 cursor-pointer hover:opacity-100" />
+                            {role === "user" ? (
+                                <Image src={assets.pencil_icon} alt="edit" className="w-4.5 cursor-pointer hover:opacity-100" />
+                            ) : (
+                                <>
+                                    <Image src={assets.regenerate_icon} alt="regenerate" className="w-4 cursor-pointer hover:opacity-100" />
+                                    <Image src={assets.like_icon} alt="like" className="w-4 cursor-pointer hover:opacity-100" />
+                                    <Image src={assets.dislike_icon} alt="dislike" className="w-4 cursor-pointer hover:opacity-100" />
+                                </>
+                            )}
                         </div>
                     </div>
-                    {
-                        role === "user" ? (
-                            <span className='text-white/90'><ReactMarkdown>{content}</ReactMarkdown></span>
-                        ) : (
-                            <>
-                                <Image src={assets.logo_icon} alt=' ' className='h-9 w-9 p-1 border border-white/15 rounded-full' />
-                                <div className='space-y-4 w-full overflow-sroll'>
-                                    <ReactMarkdown>{content}</ReactMarkdown>
-                                </div>
-                            </>
-                        )
-                    }
                 </div>
             </div>
         </div>
-    )
+    );
+    
 }
 
 export default Message
