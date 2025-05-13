@@ -30,7 +30,7 @@ const Message = ({ role, content }: roles) => {
     return (
         <div className="w-full flex justify-center text-sm">
             <div className={`flex w-full max-w-3xl ${role === "user" ? "justify-end" : "justify-start"} mb-6`}>
-                <div className={`relative group flex  gap-3 max-w-[80%] px-4 py-3 rounded-xl ${role === "user" ? "bg-[#414158]" : "bg-[#2c2c38]"}`}>
+                <div className={`relative group flex  gap-3 max-w-[80%] px-4 py-3 rounded-xl ${role === "user" ? "bg-[#414158]" : ""}`}>
                     
                     {/* Avatar for AI */}
                     {role !== "user" && (
