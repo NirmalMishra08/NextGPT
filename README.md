@@ -1,4 +1,5 @@
- https://github.com/NirmalMishra08/NextGPT/raw/main/assets/recording.mp4
+Here is the Video Link :  https://github.com/NirmalMishra08/NextGPT/raw/main/assets/recording.mp4
+![Video Preview](preview.gif)
  
  This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
